@@ -35,13 +35,14 @@ Vue.component("board", {
             <card @deletethis="Delete" @moveright="MoveR" @edit="EditCard" :last_red="card.last_red" :column=1 :id="card.id" :title="card.title" :desc="card.desc" :deadline="card.deadline" :createtime="card.createtime"></card>
         </li>
     </ul>
+    <button class="clean"  @click="Clean()">clean</button>
 </li>
 
 <li class="column">
     <h3>Задачи в работе</h3>
     <ul>
         <li v-for="card in column2">
-        <card @deletethis="Delete" @moveright="MoveR" @edit="EditCard" :reasons="card.reasons"  :last_red="card.last_red" :column=2 :id="card.id" :title="card.title" :desc="card.desc" :deadline="card.deadline" :createtime="card.createtime"></card>
+        <card @deletethis="Delete" @moveright="MoveR" @edit="EditCard" :reason="card.reason"  :last_red="card.last_red" :column=2 :id="card.id" :title="card.title" :desc="card.desc" :deadline="card.deadline" :createtime="card.createtime"></card>
         </li>
     </ul>
 </li>
@@ -50,7 +51,7 @@ Vue.component("board", {
     <h3>Тестирование</h3> 
     <ul>
         <li v-for="card in column3">
-        <card @deletethis="Delete" @moveleft="MoveL" @edit="EditCard" :reasons="card.reasons"  :last_red="card.last_red" @moveright="MoveR" :column=3 :id="card.id" :title="card.title" :desc="card.desc" :deadline="card.deadline" :createtime="card.createtime"></card>
+        <card @deletethis="Delete" @moveleft="MoveL" @edit="EditCard" :reason="card.reason"  :last_red="card.last_red" @moveright="MoveR" :column=3 :id="card.id" :title="card.title" :desc="card.desc" :deadline="card.deadline" :createtime="card.createtime"></card>
         </li>
     </ul> 
 </li>
@@ -65,6 +66,7 @@ Vue.component("board", {
 </li>
 
 </ul>
+
 </div>
     `,
     data() {
@@ -139,7 +141,7 @@ Vue.component("board", {
                 for(let i = 0; i < this.column3.length; i++){
                     if(this.column3[i].id==id){
                         console.log(reason,)
-                        this.column3[i].reasons.push(reason)
+                        this.column3[i].reason=reason
                         this.column2.push(this.column3[i])
                         this.column3.splice(i, 1)
                 }}
@@ -157,18 +159,7 @@ Vue.component("board", {
                 for(let i = 0; i < this.column2.length; i++){
                     if(this.column2[i].id==id){
                         this.column3.push(this.column2[i])
-                        this.deadlin = deadlinenew
-                        this.year = this.deadlin[0] + this.deadlin[1] + this.deadlin[2] + this.deadlin[3]
-                        this.month = this.deadlin[5] + this.deadlin[6]
-                        this.day= this.deadlin[8] + this.deadlin[9]
-                        this.deadline = []
-                        this.deadline.push({day:this.day, month:this.month, year:this.year})
-                        let last_red = new Date()
-    
-                        this.column2[i].title=titlenew,
-                        this.column2[i].desc=descnew,
-                        this.column2[i].deadline=this.deadline
-                        this.column2[i].last_red=String(last_red)
+                        this.column2.splice(i, 1)
                 }}
             }
             else if(col==3){
@@ -197,19 +188,9 @@ Vue.component("board", {
                                 }
                             }
                         }
+                        console.log(typeof this.column4)
                         this.column4.push(this.column3[i])
-                        this.deadlin = deadlinenew
-                        this.year = this.deadlin[0] + this.deadlin[1] + this.deadlin[2] + this.deadlin[3]
-                        this.month = this.deadlin[5] + this.deadlin[6]
-                        this.day= this.deadlin[8] + this.deadlin[9]
-                        this.deadline = []
-                        this.deadline.push({day:this.day, month:this.month, year:this.year})
-                        let last_red = new Date()
-    
-                        this.column3[i].title=titlenew,
-                        this.column3[i].desc=descnew,
-                        this.column3[i].deadline=this.deadline
-                        this.column3[i].last_red=String(last_red)
+                        this.column3.splice(i, 1)
                 }}
             }
         },
@@ -224,7 +205,6 @@ Vue.component("board", {
                     this.deadline = []
                     this.deadline.push({day:this.day, month:this.month, year:this.year})
                     let last_red = new Date()
-
                     this.column1[i].title=titlenew,
                     this.column1[i].desc=descnew,
                     this.column1[i].deadline=this.deadline
@@ -238,6 +218,14 @@ Vue.component("board", {
                 if(this.column3[i].id==id){
                     this.column3.splice(i, 1)
             }}
+            
+        },
+        Clean(){
+            this.column0=[],
+            this.column1=[],
+            this.column2=[],
+            this.column3=[],
+            this.column4=[]
         }
     },
     mounted(){
@@ -274,6 +262,12 @@ Vue.component("board", {
             const parsed = JSON.stringify(this.allColumns);
             localStorage.setItem('allColumns', parsed);
       },
+      log(){
+        allColumns = [this.column1, this.column2, this.column3, this.column4]    
+        const parsed = JSON.stringify(this.allColumns);
+        localStorage.setItem('allColumns', parsed);        
+      }
+      
   }
 });
 
@@ -378,7 +372,7 @@ min="2023-01-01" max="2030-12-31">
             type:String,
         },
         reason:{
-            type:Array,
+            type:String,
         },
         result:{
             type:String,
