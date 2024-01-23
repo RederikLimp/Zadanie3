@@ -1,5 +1,5 @@
-.board {
-    background-color: rgb(53, 156, 67);
+body{
+    background-color: rgb(12, 23, 14);
   }
 .columns{
     display: flex;
