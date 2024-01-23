@@ -205,6 +205,7 @@ Vue.component("board", {
                     this.deadline = []
                     this.deadline.push({day:this.day, month:this.month, year:this.year})
                     let last_red = new Date()
+
                     this.column1[i].title=titlenew,
                     this.column1[i].desc=descnew,
                     this.column1[i].deadline=this.deadline
@@ -212,13 +213,34 @@ Vue.component("board", {
             }}
             for(let i = 0; i < this.column2.length; i++){
                 if(this.column2[i].id==id){
-                        this.column2.splice(i, 1)
+                    this.deadlin = deadlinenew
+                    this.year = this.deadlin[0] + this.deadlin[1] + this.deadlin[2] + this.deadlin[3]
+                    this.month = this.deadlin[5] + this.deadlin[6]
+                    this.day= this.deadlin[8] + this.deadlin[9]
+                    this.deadline = []
+                    this.deadline.push({day:this.day, month:this.month, year:this.year})
+                    let last_red = new Date()
+
+                    this.column2[i].title=titlenew,
+                    this.column2[i].desc=descnew,
+                    this.column2[i].deadline=this.deadline
+                    this.column2[i].last_red=String(last_red)
             }}
             for(let i = 0; i < this.column3.length; i++){
                 if(this.column3[i].id==id){
-                    this.column3.splice(i, 1)
+                    this.deadlin = deadlinenew
+                    this.year = this.deadlin[0] + this.deadlin[1] + this.deadlin[2] + this.deadlin[3]
+                    this.month = this.deadlin[5] + this.deadlin[6]
+                    this.day= this.deadlin[8] + this.deadlin[9]
+                    this.deadline = []
+                    this.deadline.push({day:this.day, month:this.month, year:this.year})
+                    let last_red = new Date()
+
+                    this.column3[i].title=titlenew,
+                    this.column3[i].desc=descnew,
+                    this.column3[i].deadline=this.deadline
+                    this.column3[i].last_red=String(last_red)
             }}
-            
         },
         Clean(){
             this.column0=[],
@@ -236,38 +258,38 @@ Vue.component("board", {
                 this.column2 = this.allColumns[1]
                 this.column3 = this.allColumns[2]
                 this.column4 = this.allColumns[3]
+                this.id = this.allColumns[4]
             } catch(e) {
                 localStorage.removeItem('allColumns');
             }
-        }     
+        }
     },
     watch:{
         column1(){
-            this.allColumns = [this.column1,this.column2,this.column3, this.column4]
+            this.allColumns = [this.column1,this.column2,this.column3, this.column4,this.id]
             const parsed = JSON.stringify(this.allColumns);
             localStorage.setItem('allColumns', parsed);
         },
         column2(){
-            allColumns = [this.column1, this.column2, this.column3, this.column4]
+            allColumns = [this.column1, this.column2, this.column3, this.column4,this.id]
             const parsed = JSON.stringify(this.allColumns);
             localStorage.setItem('allColumns', parsed);
         },
         column3(){
-            allColumns = [this.column1, this.column2, this.column3, this.column4]             
+            allColumns = [this.column1, this.column2, this.column3, this.column4,this.id]             
             const parsed = JSON.stringify(this.allColumns);
             localStorage.setItem('allColumns', parsed);
         },
         column4(){
-            allColumns = [this.column1, this.column2, this.column3, this.column4]    
+            allColumns = [this.column1, this.column2, this.column3, this.column4,this.id]    
             const parsed = JSON.stringify(this.allColumns);
             localStorage.setItem('allColumns', parsed);
       },
       log(){
-        allColumns = [this.column1, this.column2, this.column3, this.column4]    
+        allColumns = [this.column1, this.column2, this.column3, this.column4,this.id]    
         const parsed = JSON.stringify(this.allColumns);
         localStorage.setItem('allColumns', parsed);        
       }
-      
   }
 });
 
@@ -344,7 +366,7 @@ min="2023-01-01" max="2030-12-31">
             if(this.titlenew&&this.descnew&&this.deadlinenew){
                 this.edit=false               
                 this.$emit("edit",this.id,this.titlenew,this.descnew,this.deadlinenew); 
-            }  
+            }
         }
     },
     mounted() {
