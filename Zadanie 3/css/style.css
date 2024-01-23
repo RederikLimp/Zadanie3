@@ -1,3 +1,6 @@
+.board {
+    background-color: rgb(53, 156, 67);
+  }
 .columns{
     display: flex;
     flex-direction: row;
@@ -6,17 +9,22 @@
 }
 
 .column{
-    width: 22%;
-    margin: auto;
-    margin-top: 0;
-    background-color: rgb(112, 112, 112);
-    border-radius: 4px;
-    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    align-items: center;
+    border: 1px solid rgb(147, 157, 90);
+    border-radius: 5px;
+    padding-bottom: 20px;
+    background-color: rgb(163, 206, 134);
 }
 
 .card{
-    border: 1px solid black;
-    margin-top: 10px;
+    width: 55%;
+    border: 1px solid rgb(220, 237, 127);
+    border-radius: 5px;
+    padding-bottom: 10px;
+    background-color: rgb(116, 194, 77);
 }
 
 ul{
@@ -31,3 +39,18 @@ ul{
 .nodone{
     background-color: #f78888;
 }
+.reason{
+    margin: 5px;
+}
+
+button{
+    margin: 10px;
+    width: 90%;
+}
+input{
+    margin: 10px;
+    width: 80%;
+}
+.board {
+    background-color: rgb(62, 85, 65);
+  }
